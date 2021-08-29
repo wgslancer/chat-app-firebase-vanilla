@@ -55,6 +55,14 @@ function loginWithGoogle() {
       // The signed-in user info.
       const user = result.user;
       console.log(user);
+      localStorage.setItem('uid', user.uid);
+      db.collection('users').doc(user.uid).set({
+        fullname: 'New user',
+        email: user.email,
+        photoURL: user.photoURL,
+        createdAt: new Date(),
+      });
+      location.replace('/chat.html');
       // ...
     })
     .catch((error) => {
