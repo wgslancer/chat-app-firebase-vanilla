@@ -54,15 +54,19 @@ function loginWithGoogle() {
       // This gives you a Google Access Token. You can use it to access the Google API.
       // The signed-in user info.
       const user = result.user;
-      console.log(user);
       localStorage.setItem('uid', user.uid);
-      db.collection('users').doc(user.uid).set({
-        fullname: 'New user',
-        email: user.email,
-        photoURL: user.photoURL,
-        createdAt: new Date(),
-      });
-      location.replace('/chat.html');
+      db.collection('users')
+        .doc(user.uid)
+        .set({
+          fullname: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        })
+        .then(() => {
+          location.replace('/chat.html');
+        });
+
       // ...
     })
     .catch((error) => {

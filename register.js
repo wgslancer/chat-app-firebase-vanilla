@@ -22,13 +22,17 @@ function registerNewUser() {
       // ...
       console.log(user);
       localStorage.setItem('uid', user.uid);
-      db.collection('users').doc(user.uid).set({
-        fullname: 'New user',
-        email: user.email,
-        photoURL: user.photoURL,
-        createdAt: new Date(),
-      });
-      location.replace('/index.html');
+      db.collection('users')
+        .doc(user.uid)
+        .set({
+          fullname: 'New user',
+          email: user.email,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        })
+        .then(() => {
+          location.replace('/index.html');
+        });
     })
     .catch((error) => {
       const errorCode = error.code;
